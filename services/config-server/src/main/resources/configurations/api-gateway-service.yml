@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/users/**
+        - id: movie-catalog-service
+          uri: lb://movie-catalog-service
+          predicates:
+            - Path=/api/v1/catalog/**
+server:
+  port: 8222

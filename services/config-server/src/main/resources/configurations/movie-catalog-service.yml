@@ -1,0 +1,73 @@
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+# Resilience4j Properties
+resilience4j:
+  circuitbreaker:
+    instances:
+      movie-service:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        sliding-window-size: 5
+        sliding-window-type: COUNT_BASED
+        failure-rate-threshold: 50
+        wait-duration-in-open-state:
+          seconds: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+
+      genre-service:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        sliding-window-size: 5
+        sliding-window-type: COUNT_BASED
+        failure-rate-threshold: 50
+        wait-duration-in-open-state:
+          seconds: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+
+  #  Resilience4j Timeout Properties
+  timelimiter:
+    instances:
+      movie-service:
+        timeout-duration:
+          seconds: 3
+      genre-service:
+        timeout-duration:
+          seconds: 3
+
+  #  Resilience4j Retry Properties
+  retry:
+    instances:
+      movie-service:
+        max-attempts: 3
+        wait-duration:
+          seconds: 5
+      genre-service:
+        max-attempts: 3
+        wait-duration:
+          seconds: 5
+
+spring:
+  data:
+    mongodb:
+      username: ${MONGO_DB_USERNAME}
+      password: ${MONGO_DB_PASSWORD}
+      host: localhost
+      port: 27017
+      database: movie-catalog
+      authentication-database: admin
+      auto-index-creation: true
+
+server:
+  port: 0
