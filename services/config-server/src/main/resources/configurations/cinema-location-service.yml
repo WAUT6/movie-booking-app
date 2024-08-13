@@ -1,0 +1,74 @@
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+# Resilience4j Properties
+resilience4j:
+  circuitbreaker:
+    instances:
+      cinema-service:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        sliding-window-size: 5
+        sliding-window-type: COUNT_BASED
+        failure-rate-threshold: 50
+        wait-duration-in-open-state:
+          seconds: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+
+      screen-service:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        sliding-window-size: 5
+        sliding-window-type: COUNT_BASED
+        failure-rate-threshold: 50
+        wait-duration-in-open-state:
+          seconds: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+
+  #  Resilience4j Timeout Properties
+  timelimiter:
+    instances:
+      cinema-service:
+        timeout-duration:
+          seconds: 3
+      screen-service:
+        timeout-duration:
+          seconds: 3
+
+  #  Resilience4j Retry Properties
+  retry:
+    instances:
+      cinema-service:
+        max-attempts: 3
+        wait-duration:
+          seconds: 5
+      screen-service:
+        max-attempts: 3
+        wait-duration:
+          seconds: 5
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/cinema-location
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 0

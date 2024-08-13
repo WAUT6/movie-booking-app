@@ -13,5 +13,9 @@ spring:
           uri: lb://movie-catalog-service
           predicates:
             - Path=/api/v1/catalog/**
+        - id: cinema-location-service
+          uri: lb://cinema-location-service
+          predicates:
+            - Path=/api/v1/cinemas/**
 server:
   port: 8222
