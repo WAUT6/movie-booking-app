@@ -1,5 +1,6 @@
 package com.waut.cinemalocationservice.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,11 +24,16 @@ public class Cinema {
     private Integer id;
     @Column(unique = true)
     private String name;
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Address address;
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "cinema")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema")
+    @JsonManagedReference
     private List<PhoneNumber> phoneNumbers;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema")
+    @JsonManagedReference
+    private List<Screen> screens;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate

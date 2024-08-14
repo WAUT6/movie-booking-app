@@ -1,5 +1,6 @@
 package com.waut.cinemalocationservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,7 +26,8 @@ public class Address {
     @GeneratedValue(strategy = SEQUENCE)
     private Integer id;
 
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "address")
+    @JsonBackReference
     private Cinema cinema;
     private String street;
     private String city;

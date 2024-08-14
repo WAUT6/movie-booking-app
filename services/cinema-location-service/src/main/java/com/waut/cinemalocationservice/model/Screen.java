@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-import static jakarta.persistence.GenerationType.SEQUENCE;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,18 +17,20 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 @Getter
 @Setter
 @Entity
-@Table(name = "cinema_phone_numbers")
+@Table(name = "cinema_screens", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"cinema_id", "screen_number"})
+})
 @EntityListeners(AuditingEntityListener.class)
-public class PhoneNumber {
+public class Screen {
     @Id
-    @GeneratedValue(strategy = SEQUENCE)
+    @GeneratedValue(strategy = IDENTITY)
     private Integer id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "cinema_id", referencedColumnName = "id")
     @JsonBackReference
     private Cinema cinema;
-    @Column(unique = true)
-    private String phoneNumber;
+    private String screenNumber;
+    private Integer capacity;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate

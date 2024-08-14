@@ -2,6 +2,8 @@ package com.waut.moviecatalogservice.handler;
 
 import com.waut.moviecatalogservice.exception.GenreNotFoundException;
 import com.waut.moviecatalogservice.exception.MovieNotFoundException;
+import jakarta.servlet.ServletException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,6 +24,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MovieNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public String handle(MovieNotFoundException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(CONFLICT)
+    public String handle(DataIntegrityViolationException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(ServletException.class)
+    @ResponseStatus(CONFLICT)
+    public String handle(ServletException e) {
         return e.getMessage();
     }
 

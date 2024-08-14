@@ -1,6 +1,7 @@
 package com.waut.cinemalocationservice.service;
 
 import com.waut.cinemalocationservice.dto.PhoneNumberRequest;
+import com.waut.cinemalocationservice.exception.ExceptionUtils;
 import com.waut.cinemalocationservice.model.Cinema;
 import com.waut.cinemalocationservice.model.PhoneNumber;
 import com.waut.cinemalocationservice.repository.PhoneNumberRepository;
@@ -23,6 +24,6 @@ public class PhoneNumberService {
                 .map(phoneNumberRequest -> phoneNumberMapper.toPhoneNumber(phoneNumberRequest, savedCinema))
                 .toList();
 
-        phoneNumberRepository.saveAll(phoneNumbers);
+        ExceptionUtils.<List<PhoneNumber>>saveItemOrThrowDuplicateKeyException(() -> phoneNumberRepository.saveAll(phoneNumbers));
     }
 }

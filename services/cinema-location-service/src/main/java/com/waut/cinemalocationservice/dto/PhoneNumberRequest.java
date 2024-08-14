@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 public record PhoneNumberRequest(
         @NotNull(message = "Number is required")
         @NotBlank(message = "Number is required")
-        @Length(min = 10, message = "Number must be at least 10 characters")
+        @Length(min = 8, message = "Number must be at least 8 characters")
         String number
 ) {
 }
