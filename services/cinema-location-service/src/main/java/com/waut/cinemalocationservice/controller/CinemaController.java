@@ -26,6 +26,12 @@ public class CinemaController {
             return cinemaService.createCinema(cinemaRequest);
     }
 
+    @PutMapping("/{cinema-id}/movies/now-showing")
+    @ResponseStatus(OK)
+    public boolean updateCurrentMoviesNowShowing(@PathVariable("cinema-id") Integer cinemaId, @RequestBody List<String> movieIds) {
+        return cinemaService.updateCurrentMoviesNowShowing(cinemaId, movieIds);
+    }
+
     @GetMapping
     @ResponseStatus(OK)
     public List<CinemaResponse> findAll() {

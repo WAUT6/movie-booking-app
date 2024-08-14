@@ -14,9 +14,16 @@ public record CinemaRequest(
         @NotBlank(message = "Name is required")
         @Length(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
         String name,
+        @NotNull(message = "Address is required")
         AddressRequest addressRequest,
         @NotEmpty(message = "Cinema should have at least one phone number")
         @NotNull(message = "Cinema should have at least one phone number")
-        List<PhoneNumberRequest> phoneNumbers
+        List<PhoneNumberRequest> phoneNumbers,
+        List<String> currentMoviesNowShowing
 ) {
+        public CinemaRequest {
+                if (currentMoviesNowShowing == null) {
+                        currentMoviesNowShowing = List.of();
+                }
+        }
 }

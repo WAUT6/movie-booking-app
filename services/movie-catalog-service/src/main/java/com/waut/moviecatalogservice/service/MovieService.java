@@ -9,11 +9,13 @@ import com.waut.moviecatalogservice.model.Movie;
 import com.waut.moviecatalogservice.repository.MovieRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MovieService {
@@ -55,5 +57,15 @@ public class MovieService {
         }
         movieRepository.deleteById(movieId);
         return true;
+    }
+
+    public List<MovieResponse> findByIds(List<String> movieIds) {
+        log.info("Fetching movies with ids: {}", movieIds);
+        return movieRepository.findAllById(movieIds).stream()
+                .map(movie -> {
+                    List<GenreResponse> genres = genreService.findAllInByIds(movie.getGenres());
+                    return movieMapper.toMovieResponse(movie, genres);
+                })
+                .toList();
     }
 }

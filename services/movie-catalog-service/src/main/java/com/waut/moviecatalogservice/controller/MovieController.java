@@ -53,6 +53,17 @@ public class MovieController {
         return movieService.findById(movieId);
     }
 
+    @GetMapping("/ids")
+    @ResponseStatus(OK)
+    @CircuitBreaker(name = "movie-service", fallbackMethod = "moviesFetchFallback")
+    @TimeLimiter(name = "movie-service")
+    @Retry(name = "movie-service")
+    public List<MovieResponse> findByIds(
+            @RequestParam(value = "id") List<String> movieIds
+    ) {
+        return movieService.findByIds(movieIds);
+    }
+
     @DeleteMapping("/{movie-id}")
     @ResponseStatus(OK)
     @CircuitBreaker(name = "movie-service", fallbackMethod = "movieDeleteFallback")

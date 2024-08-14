@@ -11,6 +11,7 @@ public record CinemaResponse(
         String name,
         AddressResponse address,
         List<PhoneNumberResponse> phoneNumbers,
+        List<String> currentMoviesNowShowing,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {

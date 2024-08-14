@@ -70,5 +70,10 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+application:
+  config:
+    api-gateway-url: http://localhost:8222
+    movie-service-url: ${application.config.api-gateway-url}/api/v1/catalog
+
 server:
   port: 0

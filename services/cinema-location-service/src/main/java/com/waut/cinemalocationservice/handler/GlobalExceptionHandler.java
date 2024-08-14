@@ -1,6 +1,7 @@
 package com.waut.cinemalocationservice.handler;
 
 import com.waut.cinemalocationservice.exception.CinemaNotFoundException;
+import com.waut.cinemalocationservice.exception.MoviesNotFoundException;
 import com.waut.cinemalocationservice.exception.ScreenNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
@@ -26,6 +27,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ScreenNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public String handle(ScreenNotFoundException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(MoviesNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public String handle(MoviesNotFoundException e) {
+        e.printStackTrace();
         return e.getMessage();
     }
 

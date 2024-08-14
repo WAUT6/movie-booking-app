@@ -34,6 +34,8 @@ public class Cinema {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema")
     @JsonManagedReference
     private List<Screen> screens;
+    @ElementCollection
+    private List<String> currentMoviesNowShowing = List.of();
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate

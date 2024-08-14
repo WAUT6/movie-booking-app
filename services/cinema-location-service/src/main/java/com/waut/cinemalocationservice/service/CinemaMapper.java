@@ -29,6 +29,7 @@ public class CinemaMapper {
     public Cinema toCinemaWithoutPhoneNumbers(CinemaRequest cinemaRequest, Address address) {
         return Cinema.builder()
                 .name(cinemaRequest.name())
+                .currentMoviesNowShowing(cinemaRequest.currentMoviesNowShowing())
                 .address(address)
                 .build();
     }
@@ -39,6 +40,7 @@ public class CinemaMapper {
                 .name(cinema.getName())
                 .phoneNumbers(cinema.getPhoneNumbers().stream().map(phoneNumberMapper::toPhoneNumberResponse).collect(Collectors.toList()))
                 .address(addressMapper.toAddressResponse(cinema.getAddress()))
+                .currentMoviesNowShowing(cinema.getCurrentMoviesNowShowing())
                 .createdAt(cinema.getCreatedAt())
                 .updatedAt(cinema.getUpdatedAt())
                 .build();

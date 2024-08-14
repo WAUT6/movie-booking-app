@@ -1,4 +1,8 @@
 package com.waut.cinemalocationservice.exception;
 
-public class MoviesNotFoundException {
+public class MoviesNotFoundException extends ItemNotFoundException {
+
+    public MoviesNotFoundException(String message) {
+        super(message);
+    }
 }
