@@ -1,5 +1,6 @@
 package com.waut.cinemalocationservice.dto;
 
+import com.waut.cinemalocationservice.movie.dto.MovieResponse;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

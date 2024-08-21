@@ -33,6 +33,11 @@ public class ScreenService {
                 .toList();
     }
 
+    public Screen findScreenById(Integer id) {
+        return screenRepository.findById(id)
+                .orElseThrow(() -> new ScreenNotFoundException("Screen with id " + id + " not found"));
+    }
+
     public ScreenResponse findById(Integer screenId) {
         Screen screen = screenRepository.findById(screenId)
                 .orElseThrow(() -> new ScreenNotFoundException("Screen with id " + screenId + " not found"));

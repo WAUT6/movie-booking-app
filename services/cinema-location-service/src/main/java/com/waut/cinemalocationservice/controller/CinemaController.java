@@ -3,6 +3,9 @@ package com.waut.cinemalocationservice.controller;
 import com.waut.cinemalocationservice.dto.CinemaRequest;
 import com.waut.cinemalocationservice.dto.CinemaResponse;
 import com.waut.cinemalocationservice.service.CinemaService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +25,18 @@ public class CinemaController {
 
     @PostMapping
     @ResponseStatus(CREATED)
+    @CircuitBreaker(name = "movie-service", fallbackMethod = "createCinemaFallback")
+    @TimeLimiter(name = "movie-service")
+    @Retry(name = "movie-service")
     public Integer createCinema(@RequestBody @Valid CinemaRequest cinemaRequest) {
             return cinemaService.createCinema(cinemaRequest);
     }
 
     @PutMapping("/{cinema-id}/movies/now-showing")
     @ResponseStatus(OK)
+    @CircuitBreaker(name = "movie-service", fallbackMethod = "createCinemaFallback")
+    @TimeLimiter(name = "movie-service")
+    @Retry(name = "movie-service")
     public boolean updateCurrentMoviesNowShowing(@PathVariable("cinema-id") Integer cinemaId, @RequestBody List<String> movieIds) {
         return cinemaService.updateCurrentMoviesNowShowing(cinemaId, movieIds);
     }
@@ -48,6 +57,10 @@ public class CinemaController {
     @ResponseStatus(OK)
     public boolean deleteById(@PathVariable("cinema-id") Integer cinemaId) {
         return cinemaService.deleteById(cinemaId);
+    }
+
+    public String createCinemaFallback(CinemaRequest cinemaRequest, RuntimeException runtimeException) {
+        return "Could not create cinema at this time! Please try again later!";
     }
 
 }

@@ -14,7 +14,7 @@ management:
 resilience4j:
   circuitbreaker:
     instances:
-      cinema-service:
+      movie-service:
         register-health-indicator: true
         event-consumer-buffer-size: 10
         sliding-window-size: 5
@@ -39,7 +39,7 @@ resilience4j:
   #  Resilience4j Timeout Properties
   timelimiter:
     instances:
-      cinema-service:
+      movie-service:
         timeout-duration:
           seconds: 3
       screen-service:
@@ -49,7 +49,7 @@ resilience4j:
   #  Resilience4j Retry Properties
   retry:
     instances:
-      cinema-service:
+      movie-service:
         max-attempts: 3
         wait-duration:
           seconds: 5
